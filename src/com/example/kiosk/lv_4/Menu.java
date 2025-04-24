@@ -6,23 +6,17 @@ import java.util.List;
 public class Menu {
     // 속성
     List<List<MainMenu>> menuItems = new ArrayList<>();
-    List<MainMenu> burgerList = new ArrayList<>();
-    List<MainMenu> drinkList = new ArrayList<>();
-    List<MainMenu> dessertList = new ArrayList<>();
 
+    // 생성자
     public Menu() {
-        menuItems.add(burgerList);
-        menuItems.add(drinkList);
-        menuItems.add(dessertList);
+        for(MenuType menuType : MenuType.values()) {
+            menuItems.add(new ArrayList<>());
+        }
     }
 
-    // 메뉴 추가하는 기능
+    // 메뉴 추가하는 기능  // 새로운 메뉴 생성 시, 변경해줘야함 (ex. case MenuType.CAKE -> menuItems.get(3).add(newFood);)
     public void addMenu(MainMenu newFood) {
-        switch (newFood.getMenuType()) {
-            case MenuType.BURGER -> menuItems.get(0).add(newFood);
-            case MenuType.DRINK -> menuItems.get(1).add(newFood);
-            case MenuType.DESSERT -> menuItems.get(2).add(newFood);
-        }
+        menuItems.get(newFood.getMenuType().getNum()-1).add(newFood);
     }
 
     // 메인 메뉴 보여주는 기능
@@ -41,14 +35,12 @@ public class Menu {
         int num = 1;
 
         System.out.println("[ SHAKESHACK MENU ]");
-        System.out.println("0. 뒤로가기\t\t | 종료");
+        System.out.println("0. 뒤로가기\t\t");
         for (MainMenu menuItem : menuItems.get(input-1)) {
-            if (menuItem.getMenuType().getNum() == input) {
-                System.out.println(num++ + ". "
-                        + menuItem.getFood_name() + "\t | w "
-                        + menuItem.getPrice() + " |\t"
-                        + menuItem.getIngredients());
-            }
+            System.out.println(num++ + ". "
+                    + menuItem.getFood_name() + "\t | w "
+                    + menuItem.getPrice() + " |\t"
+                    + menuItem.getIngredients());
         }
     }
 

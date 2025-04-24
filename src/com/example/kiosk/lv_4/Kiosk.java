@@ -1,6 +1,5 @@
 package com.example.kiosk.lv_4;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -14,6 +13,7 @@ public class Kiosk {
         menu.addMenu(new Burger("SmokeShack", 8.9, "베이컨, 체리 페퍼에 쉑소스가 토핑된 치즈버거", MenuType.BURGER));
         menu.addMenu(new Burger("Cheeseburger", 6.9, "포테이토 번과 비프패티, 치즈가 토핑된 치즈버거", MenuType.BURGER));
         menu.addMenu(new Burger("Hamburger", 5.4, "비프패티를 기반으로 야채가 들어간 기본버거", MenuType.BURGER));
+        menu.addMenu(new Cake("CheeseCake", 10.4, "내가 제일 좋아하는 치즈 케이크", MenuType.CAKE));
     }
 
     // 기능
