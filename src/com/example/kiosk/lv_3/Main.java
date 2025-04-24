@@ -1,4 +1,4 @@
-package com.example.kiosk.Lv_2;
+package com.example.kiosk.lv_3;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
