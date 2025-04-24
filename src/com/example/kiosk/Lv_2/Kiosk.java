@@ -22,7 +22,10 @@ public class Kiosk {
         System.out.println(" [ SHAKESHACK MENU ]");
         System.out.println("0. 종료\t\t\t\t | 종료");
         for (MenuItem foodInfo : foodList) {
-            System.out.println(num++ + ". " + foodInfo.getFood_name() + "\t\t | w " + foodInfo.getPrice() + "\t " + foodInfo.getIngredients());
+            System.out.println(num++ + ". "
+                    + foodInfo.getFood_name() + "\t\t | w "
+                    + foodInfo.getPrice() + "\t "
+                    + foodInfo.getIngredients());
         }
     }
 

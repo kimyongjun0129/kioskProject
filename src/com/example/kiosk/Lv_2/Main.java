@@ -1,5 +1,6 @@
 package com.example.kiosk.Lv_2;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -15,18 +16,23 @@ public class Main {
         int input = 1;
 
         do {
-            try {
-                kiosk.showMenu();
-                System.out.print("메뉴를 선택하세요 : ");
-                input = scanner.nextInt();
+            kiosk.showMenu();
+            System.out.print("메뉴를 선택하세요 : ");
+            input = userInput(scanner);
 
-                if(input > kiosk.totalFoodCount()) {
-                    System.out.println("음식이 없습니다.");
-                }
-            } catch (RuntimeException e) {
-                System.out.println("올바른 값을 입력하세요.");
-                scanner.nextLine();
+            if (kiosk.totalFoodCount() < input) {
+                System.out.println("음식이 없습니다.");
             }
         } while(input != 0);
+    }
+
+    public static int userInput(Scanner scanner) {
+        try {
+            return scanner.nextInt();
+        } catch(InputMismatchException e) {
+            System.out.println("올바른 값을 입력하세요.");
+            scanner.nextLine();
+            return -1;
+        }
     }
 }
