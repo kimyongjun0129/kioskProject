@@ -57,4 +57,8 @@ public class Menu {
     public MainMenu getMenuItems(int num, int num1) {
         return menuItems.get(num-1).get(num1-1);
     }
+
+    public int getTotalMenuCount() {
+        return MenuType.values().length;
+    }
 }

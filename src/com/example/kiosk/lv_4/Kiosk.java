@@ -24,6 +24,7 @@ public class Kiosk {
         int mainMenuInput;
         int menuInput;
         int shoppingBascketInput;
+
         do {
             // 메인 메뉴를 보여준다.
             menu.showMainMenu();
@@ -37,35 +38,38 @@ public class Kiosk {
                     System.out.println("종료합니다.");
                     return;
                 }
-                if (!shoppingBascket.getList().isEmpty()) {
-                    if (mainMenuInput == MenuType.values().length+1) {
-                        shoppingBascket.printTotalMenu();
 
-                        System.out.println("1. 주문\t\t2.메뉴판");
-                        System.out.print("주문하시겠습니까? ");
-                        int input = userInput();
-                        if (input == 1) {
-                            System.out.println("주문이 완료되었습니다. 금액은 w " + shoppingBascket.getSum() + " 입니다.\n");
-                            shoppingBascket.resetSum();
-                            shoppingBascket.resetshoppingBascket();
-                        } else if (input == 2) {
-                            continue;
-                        } else {
-                            System.out.println("잘못 입력하였습니다.");
-                        }
-                        continue;
-                    }
-                    if (mainMenuInput == MenuType.values().length+2) {
-                        System.out.println("주문이 취소되었습니다.\n");
+                // 장바구니 메뉴가 보이지 않을 때, 전체 메뉴 갯수 보다 큰 수를 입력 시 예외 생성
+                if (shoppingBascket.getList().isEmpty() && mainMenuInput > menu.getTotalMenuCount()) throw new InputMismatchException();
+                // 장바구니가 보일 때, 전체 메뉴 갯수 + 장바구니 메뉴 갯수(2) 보다 큰 수를 입력 시 예외 생성
+                if (mainMenuInput > menu.getTotalMenuCount()+2) throw new InputMismatchException();
+
+                // 장바구니 확인
+                if (mainMenuInput == menu.getTotalMenuCount()+1) {
+                    shoppingBascket.printTotalMenu();
+
+                    System.out.println("1. 주문\t\t2.메뉴판");
+                    System.out.print("주문하시겠습니까? ");
+                    int input = userInput();
+                    if(!(input > 0 && input < 3)) throw new InputMismatchException();
+
+                    // 주문 완료
+                    if (input == 1) {
+                        System.out.println("주문이 완료되었습니다. 금액은 w " + shoppingBascket.getSum() + " 입니다.\n");
+                        shoppingBascket.resetSum();
                         shoppingBascket.resetshoppingBascket();
-                        continue;
                     }
-                } else if (MenuType.values().length < mainMenuInput) {
-                    System.out.println("메뉴가 없습니다.");
+                    continue;
+                }
+
+                // 주문 취소
+                if (mainMenuInput == menu.getTotalMenuCount()+2) {
+                    System.out.println("주문이 취소되었습니다.\n");
+                    shoppingBascket.resetshoppingBascket();
                     continue;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("잘못 입력했습니다.");
+                System.out.println("없는 메뉴입니다.\n");
                 continue;
             }
 
@@ -101,16 +105,15 @@ public class Kiosk {
                 System.out.print("추가하시겠습니까? ");
                 shoppingBascketInput = userInput();
                 if(!(shoppingBascketInput > 0 && shoppingBascketInput < 3)) throw new InputMismatchException();
-            } catch (InputMismatchException e) {
-                System.out.println("잘못 입력했습니다.");
-                continue;
-            }
 
-            // 장바구니에 추가하기
-            if(shoppingBascketInput == 1) {
-                shoppingBascket.addMenu(menu.getMenuItems(mainMenuInput, menuInput));
-            } else if (shoppingBascketInput == 2) {
-                System.out.println("취소되었습니다.\n");
+                // 장바구니에 추가하기
+                if(shoppingBascketInput == 1) {
+                    shoppingBascket.addMenu(menu.getMenuItems(mainMenuInput, menuInput));
+                } else {
+                    System.out.println("취소되었습니다.\n");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("없는 메뉴입니다.\n");
             }
         } while(true);
     }
