@@ -1,6 +1,6 @@
 package com.example.kiosk.lv_4;
 
-public class MainMenu {
+public abstract class MainMenu {
     private final String food_name;
     private final double price;
     private final String ingredients;
