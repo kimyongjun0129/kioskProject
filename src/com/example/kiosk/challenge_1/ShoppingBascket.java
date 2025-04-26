@@ -1,4 +1,4 @@
-package com.example.kiosk.lv_4;
+package com.example.kiosk.challenge_1;
 
 import java.util.ArrayList;
 import java.util.List;
