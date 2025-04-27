@@ -51,7 +51,6 @@ public class Kiosk {
                     System.out.println("1. 주문\t\t2. 메뉴판");
                     System.out.print("주문하시겠습니까? ");
                     int input = userInput();
-                    if (!(input > 0 && input < 3)) throw new IndexOutOfBoundsException();
 
                     // 주문 완료
                     if (input == 1) {
@@ -62,12 +61,14 @@ public class Kiosk {
                             System.out.println(num++ + ". " + discountType.getTarget() + "\t: " + discountType.getDiscount() + "%");
                         }
 
-                        userInput();
+                        System.out.print("입력해주세요 : ");
+                        Discount discount = new Discount(userInput());
 
-                        System.out.println("주문이 완료되었습니다. 금액은 w " + shoppingBascket.getSum() + " 입니다.\n");
+                        double totalCost = shoppingBascket.getSum();
+                        System.out.println("주문이 완료되었습니다. 금액은 w " + discount.Calculate(totalCost) + " 입니다.\n");
                         shoppingBascket.resetSum();
                         shoppingBascket.resetshoppingBascket();
-                    }
+                    } else throw new IndexOutOfBoundsException();
                     continue;
                 }
 
@@ -98,14 +99,14 @@ public class Kiosk {
                 System.out.println("1. 확인\t\t2. 취소");
                 System.out.print("추가하시겠습니까? ");
                 shoppingBascketInput = userInput();
-                if (!(shoppingBascketInput > 0 && shoppingBascketInput < 3)) throw new IndexOutOfBoundsException();
 
                 // 장바구니에 추가하기
-                if (shoppingBascketInput == 1) {
-                    shoppingBascket.addMenu(menu.getMenuItems(mainMenuInput, menuInput));
-                } else {
-                    System.out.println("취소되었습니다.\n");
+                switch (shoppingBascketInput) {
+                    case 1 -> shoppingBascket.addMenu(menu.getMenuItems(mainMenuInput, menuInput));
+                    case 2 -> System.out.println("취소되었습니다.\n");
+                    default -> throw new IndexOutOfBoundsException();
                 }
+
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("없는 메뉴입니다.\n");
             } catch (InputMismatchException e) {
