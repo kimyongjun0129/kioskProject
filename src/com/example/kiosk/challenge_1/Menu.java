@@ -9,7 +9,7 @@ public class Menu {
 
     // 생성자
     public Menu() {
-        for(MenuType menuType : MenuType.values()) {
+        for(int i = 0; i < MenuType.values().length; i ++) {
             menuItems.add(new ArrayList<>());
         }
     }
