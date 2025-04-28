@@ -15,7 +15,7 @@ public class Kiosk {
         menu.addMenu(new Burger("Cheeseburger", 6.9, "포테이토 번과 비프패티, 치즈가 토핑된 치즈버거", MenuType.BURGER));
         menu.addMenu(new Burger("Hamburger", 5.4, "비프패티를 기반으로 야채가 들어간 기본버거", MenuType.BURGER));
         menu.addMenu(new Cake("CheeseCake", 10.4, "내가 제일 좋아하는 치즈 케이크", MenuType.CAKE));
-        menu.addMenu(new Cake("chocolateCake", 5.4, "내가 제일 싫어하는 치즈 케이크", MenuType.CAKE));
+        menu.addMenu(new Cake("ChocolateCake", 5.4, "내가 제일 싫어하는 치즈 케이크", MenuType.CAKE));
     }
 
     // 기능
@@ -39,6 +39,7 @@ public class Kiosk {
                     return;
                 }
 
+
                 // 장바구니 메뉴가 보이지 않을 때, 전체 메뉴 갯수 보다 큰 수를 입력 시 예외 생성
                 if (shoppingBascket.getList().isEmpty() && mainMenuInput > menu.getTotalMenuCount()) throw new IndexOutOfBoundsException();
                 // 장바구니가 보일 때, 전체 메뉴 갯수 + 장바구니 메뉴 갯수(2) 보다 큰 수를 입력 시 예외 생성
@@ -46,30 +47,47 @@ public class Kiosk {
 
                 // 장바구니 확인
                 if (mainMenuInput == menu.getTotalMenuCount() + 1) {
-                    shoppingBascket.printTotalMenu();
+                    shoppingBascket.showShoppingBascketMenu();
 
-                    System.out.println("1. 주문\t\t2. 메뉴판");
+                    System.out.println("\n1. 주문\t\t2. 메뉴 삭제\t\t3. 메뉴판");
                     System.out.print("주문하시겠습니까? ");
                     int input = userInput();
 
                     // 주문 완료
-                    if (input == 1) {
-                        int num = 1;
+                    switch (input) {
+                        case 1 -> {
+                            int num = 1;
 
-                        System.out.println("할인 정보를 입력해주세요.");
-                        for (DiscountType discountType : DiscountType.values()) {
-                            System.out.println(num++ + ". " + discountType.getTarget() + "\t: " + discountType.getDiscount() + "%");
+                            System.out.println("할인 정보를 입력해주세요.");
+                            for (DiscountType discountType : DiscountType.values()) {
+                                System.out.println(num++ + ". " + discountType.getTarget() + "\t: " + discountType.getDiscount() + "%");
+                            }
+
+                            System.out.print("입력해주세요 : ");
+                            Discount discount = new Discount(userInput());
+
+                            double totalCost = shoppingBascket.getTotalCost();
+                            System.out.printf("주문이 완료되었습니다. 금액은 w %.2f 입니다.\n\n", discount.Calculate(totalCost));
+                            shoppingBascket.resetTotalCost();
+                            shoppingBascket.resetshoppingBascket();
+                            continue;
                         }
+                        case 2 -> {
+                            Scanner scanner = new Scanner(System.in);
 
-                        System.out.print("입력해주세요 : ");
-                        Discount discount = new Discount(userInput());
+                            shoppingBascket.showShoppingBascketMenu();
+                            System.out.print("장바구니에서 어떤 음식을 삭제하시겠습니까? ");
+                            String food_name = scanner.nextLine();
 
-                        double totalCost = shoppingBascket.getSum();
-                        System.out.println("주문이 완료되었습니다. 금액은 w " + discount.Calculate(totalCost) + " 입니다.\n");
-                        shoppingBascket.resetSum();
-                        shoppingBascket.resetshoppingBascket();
-                    } else throw new IndexOutOfBoundsException();
-                    continue;
+                            shoppingBascket.deleteMenu(food_name);
+                            continue;
+                        }
+                        case 3 -> {
+                            System.out.println();   // 줄바꿈
+                            continue;
+                        }
+                        default -> throw new IndexOutOfBoundsException();
+                    }
                 }
 
                 // 주문 취소
