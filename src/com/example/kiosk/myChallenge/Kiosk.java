@@ -15,6 +15,7 @@ public class Kiosk {
         menuService.addItem(new Item("Cheeseburger", 6.9, "포테이토 번과 비프패티, 치즈가 토핑된 치즈버거", MenuType.BURGER));
         menuService.addItem(new Item("Hamburger", 5.4, "비프패티를 기반으로 야채가 들어간 기본버거", MenuType.BURGER));
         menuService.addItem(new Item("Coke", 1.5, "기본 코카콜라", MenuType.DRINK));
+        menuService.addItem(new Item("cheeseCake", 1.5, "기본 코카콜라", MenuType.CAKE));
     }
 
     // 기능
@@ -123,7 +124,6 @@ public class Kiosk {
                     case 2 -> System.out.println("취소되었습니다.\n");
                     default -> throw new IndexOutOfBoundsException();
                 }
-
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("없는 메뉴입니다.\n");
             } catch (InputMismatchException e) {

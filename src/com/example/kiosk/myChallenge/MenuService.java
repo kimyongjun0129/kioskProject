@@ -15,11 +15,7 @@ public class MenuService {
     }
 
     public void addItem(Item item) {
-        switch (item.getMenuType()) {
-            case BURGER -> menuList.get(MenuType.BURGER.getNum()-1).addItem(item);
-            case DRINK -> menuList.get(MenuType.DRINK.getNum()-1).addItem(item);
-            case DESSERT -> menuList.get(MenuType.DESSERT.getNum()-1).addItem(item);
-        }
+        menuList.get(item.getMenuType().getNum()-1).addItem(item);
     }
 
     public List<Item> menuItemList (int input) {
