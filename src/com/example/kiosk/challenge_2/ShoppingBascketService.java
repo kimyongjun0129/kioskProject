@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ShoppingBascket {
-    List<MainMenu> shoppingBascket = new ArrayList<>();
+public class ShoppingBascketService {
+    List<MenuItem> shoppingBascket = new ArrayList<>();
     double totalCost = 0;
 
     public void showOrderMenu() {
@@ -17,20 +17,20 @@ public class ShoppingBascket {
         System.out.println(++num + " Cancel\t\t | 진행중인 주문을 취소합니다.");
     }
 
-    public void addMenu(MainMenu mainMenu) {
-        System.out.println(mainMenu.getFood_name() + "이 장바구니에 추가되었습니다.\n");
-        shoppingBascket.add(mainMenu);
-        addItemPrice(mainMenu);
+    public void addMenu(MenuItem menuItem) {
+        System.out.println(menuItem.getFood_name() + "이 장바구니에 추가되었습니다.\n");
+        shoppingBascket.add(menuItem);
+        addItemPrice(menuItem);
     }
 
-    public List<MainMenu> getList() {
+    public List<MenuItem> getList() {
         return shoppingBascket;
     }
 
     public void showShoppingBascketMenu() {
 
         System.out.println("\n[ Orders ]");
-        for (MainMenu menu : shoppingBascket) {
+        for (MenuItem menu : shoppingBascket) {
             System.out.println(menu.getFood_name() + " | " + menu.getPrice() + " | " + menu.getIngredients());
         }
         System.out.println("\n[ Total ]");
@@ -42,18 +42,18 @@ public class ShoppingBascket {
     }
 
     private boolean isFindMenu(String name) {
-        for (MainMenu mainMenu : shoppingBascket) {
-            if(mainMenu.getFood_name().equalsIgnoreCase(name)) return true;
+        for (MenuItem menuItem : shoppingBascket) {
+            if(menuItem.getFood_name().equalsIgnoreCase(name)) return true;
         }
         return false;
     }
 
 
     public void deleteMenu(String name) {
-        // 전체 비용에서 메뉴 값 만큼 삭제
-        subtractItemPrice(name);
-
         if (isFindMenu(name)) {
+            // 전체 비용에서 메뉴 값 만큼 삭제
+            subtractItemPrice(name);
+
             shoppingBascket = shoppingBascket.stream()
                     .filter(menu -> !menu.getFood_name().equalsIgnoreCase(name))
                     .collect(Collectors.toList());
@@ -64,8 +64,8 @@ public class ShoppingBascket {
         }
     }
 
-    public void addItemPrice(MainMenu mainMenu) {
-        totalCost += mainMenu.getPrice();
+    public void addItemPrice(MenuItem menuItem) {
+        totalCost += menuItem.getPrice();
     }
 
     private void subtractItemPrice(String name) {
@@ -73,8 +73,6 @@ public class ShoppingBascket {
             shoppingBascket.stream()
                     .filter(menu -> menu.getFood_name().equalsIgnoreCase(name))
                     .findAny().ifPresent(mainMenu -> totalCost -= mainMenu.getPrice());
-        } else {
-            System.out.println("음식이 존재하지 않습니다.\n");
         }
     }
 
