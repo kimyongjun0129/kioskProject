@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ShoppingBascketService {
-    List<MenuItem> shoppingBascket = new ArrayList<>();
+    List<Item> shoppingBascket = new ArrayList<>();
     double totalCost = 0;
 
     public void showOrderMenu() {
@@ -17,20 +17,20 @@ public class ShoppingBascketService {
         System.out.println(++num + " Cancel\t\t | 진행중인 주문을 취소합니다.");
     }
 
-    public void addMenu(MenuItem menuItem) {
-        System.out.println(menuItem.getFood_name() + "이 장바구니에 추가되었습니다.\n");
-        shoppingBascket.add(menuItem);
-        addItemPrice(menuItem);
+    public void addMenu(Item item) {
+        System.out.println(item.getFood_name() + "이 장바구니에 추가되었습니다.\n");
+        shoppingBascket.add(item);
+        addItemPrice(item);
     }
 
-    public List<MenuItem> getList() {
+    public List<Item> getList() {
         return shoppingBascket;
     }
 
     public void showShoppingBascketMenu() {
 
         System.out.println("\n[ Orders ]");
-        for (MenuItem menu : shoppingBascket) {
+        for (Item menu : shoppingBascket) {
             System.out.println(menu.getFood_name() + " | " + menu.getPrice() + " | " + menu.getIngredients());
         }
         System.out.println("\n[ Total ]");
@@ -42,8 +42,8 @@ public class ShoppingBascketService {
     }
 
     private boolean isFindMenu(String name) {
-        for (MenuItem menuItem : shoppingBascket) {
-            if(menuItem.getFood_name().equalsIgnoreCase(name)) return true;
+        for (Item item : shoppingBascket) {
+            if(item.getFood_name().equalsIgnoreCase(name)) return true;
         }
         return false;
     }
@@ -64,8 +64,8 @@ public class ShoppingBascketService {
         }
     }
 
-    public void addItemPrice(MenuItem menuItem) {
-        totalCost += menuItem.getPrice();
+    public void addItemPrice(Item item) {
+        totalCost += item.getPrice();
     }
 
     private void subtractItemPrice(String name) {
@@ -78,6 +78,7 @@ public class ShoppingBascketService {
 
     public void resetshoppingBascket () {
         shoppingBascket.clear();
+        resetTotalCost();
     }
 
     public void resetTotalCost() {

@@ -5,18 +5,25 @@ import java.util.List;
 
 public class MenuService {
     // 속성
-    private final List<List<MenuItem>> menuItems = new ArrayList<>();
+    private final List<FoodList> menuList = new ArrayList<>();
 
     // 생성자
     public MenuService() {
-        for(int i = 0; i < MenuType.values().length; i ++) {
-            menuItems.add(new ArrayList<>());
+        for (int i = 0; i < MenuType.values().length; i++) {
+            menuList.add(new FoodList());
         }
     }
 
-    // 메뉴 추가하는 기능
-    public void addMenu(MenuItem newFood) {
-        menuItems.get(newFood.getMenuType().getNum()-1).add(newFood);
+    public void addItem(Item item) {
+        switch (item.getMenuType()) {
+            case BURGER -> menuList.get(MenuType.BURGER.getNum()-1).addItem(item);
+            case DRINK -> menuList.get(MenuType.DRINK.getNum()-1).addItem(item);
+            case DESSERT -> menuList.get(MenuType.DESSERT.getNum()-1).addItem(item);
+        }
+    }
+
+    public List<Item> menuItemList (int input) {
+        return menuList.get(input-1).getList();
     }
 
     // 메인 메뉴 보여주는 기능
@@ -36,11 +43,11 @@ public class MenuService {
 
         System.out.println("\n[ SHAKESHACK MENU ]");
         System.out.println("0. 뒤로가기\t\t");
-        for (MenuItem menuItem : menuItems.get(input-1)) {
+        for (Item item : menuItemList(input)) {
             System.out.println(num++ + ". "
-                    + menuItem.getFood_name() + "\t | w "
-                    + menuItem.getPrice() + " |\t"
-                    + menuItem.getIngredients());
+                    + item.getFood_name() + "\t | w "
+                    + item.getPrice() + " |\t"
+                    + item.getIngredients());
         }
     }
 
@@ -48,14 +55,13 @@ public class MenuService {
     // 메뉴 정보 제공
     public void showSelectedFood(int mainMenuInput, int menuInput) {
         System.out.println("선택한 메뉴 : "
-                + menuItems.get(mainMenuInput-1).get(menuInput-1).getFood_name() + "\t | w "
-                + menuItems.get(mainMenuInput-1).get(menuInput-1).getPrice() + " |\t"
-                + menuItems.get(mainMenuInput-1).get(menuInput-1).getIngredients());
-        System.out.println();
+                + menuItemList(mainMenuInput).get(menuInput-1).getFood_name() + "\t | w "
+                + menuItemList(mainMenuInput).get(menuInput-1).getPrice() + " |\t"
+                + menuItemList(mainMenuInput).get(menuInput-1).getIngredients() + "\n");
     }
 
-    public MenuItem getMenuItems(int num, int num1) {
-        return menuItems.get(num-1).get(num1-1);
+    public Item getMenuItems(int num, int num1) {
+        return menuItemList(num).get(num1-1);
     }
 
     public int getTotalMenuCount() {
