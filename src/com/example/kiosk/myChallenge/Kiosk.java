@@ -8,7 +8,7 @@ public class Kiosk {
     private final MenuService menuService = new MenuService();
     private final ShoppingBascketService shoppingBascketService = new ShoppingBascketService();
 
-    // 생성자
+    // 생성자 // Item 생성
     public Kiosk() {
         menuService.addItem(new Item("ShackBurger", 6.9, "토마토, 양상추, 쉑소스가 토핑된 치즈버거", MenuType.BURGER));
         menuService.addItem(new Item("SmokeShack", 8.9, "베이컨, 체리 페퍼에 쉑소스가 토핑된 치즈버거", MenuType.BURGER));
@@ -56,9 +56,11 @@ public class Kiosk {
 
                     // 주문 완료
                     switch (input) {
+                        // 주문 진행 선택
                         case 1 -> {
                             int num = 1;
 
+                            // 할인 정보를 보여준다.
                             System.out.println("할인 정보를 입력해주세요.");
                             for (DiscountType discountType : DiscountType.values()) {
                                 System.out.println(num++ + ". " + discountType.getTarget() + "\t: " + discountType.getDiscount() + "%");
@@ -73,6 +75,7 @@ public class Kiosk {
                             shoppingBascketService.resetshoppingBascket();
                             continue;
                         }
+                        // 메뉴 삭제 선택
                         case 2 -> {
                             Scanner scanner = new Scanner(System.in);
 
@@ -83,6 +86,7 @@ public class Kiosk {
                             shoppingBascketService.deleteMenu(food_name);
                             continue;
                         }
+                        // 메뉴판으로 이동
                         case 3 -> {
                             System.out.println();   // 줄바꿈
                             continue;
@@ -120,7 +124,7 @@ public class Kiosk {
 
                 // 장바구니에 추가하기
                 switch (shoppingBascketInput) {
-                    case 1 -> shoppingBascketService.addMenu(menuService.getMenuItems(mainMenuInput, menuInput));
+                    case 1 -> shoppingBascketService.addMenu(menuService.getMenuItem(mainMenuInput, menuInput));
                     case 2 -> System.out.println("취소되었습니다.\n");
                     default -> throw new IndexOutOfBoundsException();
                 }
